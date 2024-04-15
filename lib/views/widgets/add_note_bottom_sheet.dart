@@ -11,30 +11,69 @@ class AddNoteBottomSheet extends StatelessWidget {
     return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 24,
-            ),
-            CustomTextField(
-              hintText: 'title',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              hintText: 'content',
-              maxLines: 6,
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            CustomButton(),
-            SizedBox(
-              height: 30,
-            ),
-          ],
-        ),
+        child: AddNoteFrom(),
+      ),
+    );
+  }
+}
+
+class AddNoteFrom extends StatefulWidget {
+  const AddNoteFrom({
+    super.key,
+  });
+
+  @override
+  State<AddNoteFrom> createState() => _AddNoteFromState();
+}
+
+class _AddNoteFromState extends State<AddNoteFrom> {
+  final GlobalKey<FormState> formKey = GlobalKey();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  String? title, subTitle;
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      autovalidateMode: autovalidateMode,
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 24,
+          ),
+          CustomTextField(
+            onSaved: (value) {
+              title = value;
+            },
+            hintText: 'title',
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          CustomTextField(
+            onSaved: (value) {
+              subTitle = value;
+            },
+            hintText: 'content',
+            maxLines: 6,
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          CustomButton(
+            onTap: () {
+              // هنا هعمل validate  للداتا اللى هيكتبها اليوزر بمجرد ماضغط على الزارار
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
+              } else {
+                autovalidateMode = AutovalidateMode.always;
+                setState(() {});
+              }
+            },
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+        ],
       ),
     );
   }
