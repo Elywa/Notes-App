@@ -65,6 +65,7 @@ class _AddNoteFromState extends State<AddNoteFrom> {
               if (formKey.currentState!.validate()) {
                 formKey.currentState!.save();
               } else {
+                //هنا عشان يفضل يظهر لليوزر مسدج بالايرور
                 autovalidateMode = AutovalidateMode.always;
                 setState(() {});
               }
