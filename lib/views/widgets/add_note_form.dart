@@ -47,22 +47,27 @@ class _AddNoteFromState extends State<AddNoteFrom> {
           const SizedBox(
             height: 50,
           ),
-          CustomButton(
-            onTap: () {
-              // هنا هعمل validate  للداتا اللى هيكتبها اليوزر بمجرد ماضغط على الزارار
-              if (formKey.currentState!.validate()) {
-                formKey.currentState!.save();
-                var noteModel = NoteModel(
-                    title: title!,
-                    subTitlr: subTitle!,
-                    date: DateTime.now().toString(),
-                    color: Colors.blue.value);
-                BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
-              } else {
-                //هنا عشان يفضل يظهر لليوزر مسدج بالايرور
-                autovalidateMode = AutovalidateMode.always;
-                setState(() {});
-              }
+          BlocBuilder<AddNoteCubit, AddNoteState>(
+            builder: (context, state) {
+              return CustomButton(
+                isLoading: state is AddNoteLoading ? true : false,
+                onTap: () {
+                  // هنا هعمل validate  للداتا اللى هيكتبها اليوزر بمجرد ماضغط على الزارار
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    var noteModel = NoteModel(
+                        title: title!,
+                        subTitlr: subTitle!,
+                        date: DateTime.now().toString(),
+                        color: Colors.blue.value);
+                    BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
+                  } else {
+                    //هنا عشان يفضل يظهر لليوزر مسدج بالايرور
+                    autovalidateMode = AutovalidateMode.always;
+                    setState(() {});
+                  }
+                },
+              );
             },
           ),
           const SizedBox(
