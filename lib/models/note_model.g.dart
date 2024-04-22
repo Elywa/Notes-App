@@ -9,7 +9,7 @@ part of 'note_model.dart';
 class NoteModelAdapter extends TypeAdapter<NoteModel> {
   @override
   final int typeId = 0;
-  
+
   @override
   NoteModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
@@ -18,7 +18,7 @@ class NoteModelAdapter extends TypeAdapter<NoteModel> {
     };
     return NoteModel(
       title: fields[0] as String,
-      subTitlr: fields[1] as String,
+      subTitle: fields[1] as String,
       date: fields[2] as String,
       color: fields[3] as int,
     );
@@ -31,7 +31,7 @@ class NoteModelAdapter extends TypeAdapter<NoteModel> {
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
-      ..write(obj.subTitlr)
+      ..write(obj.subTitle)
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
