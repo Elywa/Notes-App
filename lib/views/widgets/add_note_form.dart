@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:notes_app/cubits/add%20note%20cubit/add_note_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/widgets/custom_button.dart';
@@ -52,13 +53,16 @@ class _AddNoteFromState extends State<AddNoteFrom> {
               return CustomButton(
                 isLoading: state is AddNoteLoading ? true : false,
                 onTap: () {
+                  var currentDate = DateTime.now();
+                  var formatedDate =
+                      DateFormat('dd-mm-yyyy').format(currentDate);
                   // هنا هعمل validate  للداتا اللى هيكتبها اليوزر بمجرد ماضغط على الزارار
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
                     var noteModel = NoteModel(
                         title: title!,
                         subTitlr: subTitle!,
-                        date: DateTime.now().toString(),
+                        date: formatedDate,
                         color: Colors.blue.value);
                     BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
                   } else {
